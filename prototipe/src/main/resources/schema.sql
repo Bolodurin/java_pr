@@ -97,10 +97,26 @@ COMMENT ON COLUMN headman_request.file IS 'File, which was sending by headman';
 COMMENT ON COLUMN headman_request.file IS 'Time of sending request';
 
 
+CREATE TABLE IF NOT EXISTS chairman_requests(
+  user_id BIGINT REFERENCES user(id),
+  request_id BIGINT REFERENCES request_from_user(request_id) ON DELETE CASCADE,
+  CONSTRAINT user_request_pk PRIMARY KEY (user_id, request_id)
+);
+
+COMMENT ON TABLE user_request IS 'Table, which connect chairman with him requests';
+COMMENT ON COLUMN user_request.user_id IS 'Chairman, who received the request from headman';
+COMMENT ON COLUMN user_request.request_id IS 'One of the request, which received to chairman';
 
 
+CREATE TABLE IF NOT EXISTS headman_request(
+  user_id BIGINT REFERENCES user(id),
+  request_id BIGINT REFERENCES request_from_user(request_id) ON DELETE CASCADE,
+  CONSTRAINT user_request_pk PRIMARY KEY (user_id, request_id)
+);
 
-
+COMMENT ON TABLE user_request IS 'Table, which connect headman with him requests';
+COMMENT ON COLUMN user_request.user_id IS 'Headman, who received the request from student';
+COMMENT ON COLUMN user_request.request_id IS 'One of the request, which received to headman';
 
 
 CREATE TABLE IF NOT EXISTS user_request(
@@ -108,3 +124,7 @@ CREATE TABLE IF NOT EXISTS user_request(
   request_id BIGINT REFERENCES request_from_user(request_id) ON DELETE CASCADE,
   CONSTRAINT user_request_pk PRIMARY KEY (user_id, request_id)
 );
+
+COMMENT ON TABLE user_request IS 'Table, which connect user with him request';
+COMMENT ON COLUMN user_request.user_id IS 'User, who sent the request';
+COMMENT ON COLUMN user_request.request_id IS 'Request, which sent by user';
