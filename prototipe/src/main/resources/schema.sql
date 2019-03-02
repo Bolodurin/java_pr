@@ -10,7 +10,9 @@ CREATE TABLE IF NOT EXISTS user(
   course_num INT NOT NULL,
   facul_num INT NOT NULL,
   start_ban DATE,
-  end_ban DATE
+  end_ban DATE,
+  summary_help INT,
+  help_for_last_month INT
 );
 
 COMMENT ON TABLE user IS 'Table containing the application users'' data';
@@ -41,5 +43,19 @@ CREATE TABLE IF NOT EXISTS key(
 )
 
 COMMENT ON TABLE key IS 'Table containing key''s data';
+COMMENT ON COLUMN key.close_key IS 'Close key for checking request';
+COMMENT ON COLUMN key.open_key IS 'Open key for checking request';
+COMMENT ON COLUMN key.user_id IS 'Id of user, who has got this key';
+COMMENT ON COLUMN key.creating_time IS 'Time of creating key'
+COMMENT ON COLUMN key.deleting_time IS 'Time of ending lifecircle of key'
 
-
+CREATE TABLE IF NOT EXISTS request_from_user(
+  request_id BIGINT PRIMARY KEY,
+  file VARBINARY(1000) NOT NULL,
+  proof VARBINARY(1000) NOT NULL,
+  hash_file VARCHAR(100) NOT NULL,
+  sign_hash VARCHAR(100) NOT NULL,
+  close_key BIGINT PRIMARY KEY,
+  status_of_accept INT NOT NULL,
+  reason_of_request INT NOT NULL
+)
