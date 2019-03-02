@@ -1,1 +1,2 @@
-# java_pr
+# Client-server app
+Educational project on Java
